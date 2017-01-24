@@ -1,0 +1,17 @@
+{
+	"license": "LGPL",
+    "authors": [{
+            "name": "Klever Ramon",
+            "email": "klever@kircmedia.com",
+            "homepage": "http://www.kircmedia.com",
+            "role": "Developer"
+        }],
+    "support": {
+        "email": "support@kircmedia.com"
+    },
+	"autoload": {
+		"classmap": [
+			"lib/"
+		]
+	}
+}

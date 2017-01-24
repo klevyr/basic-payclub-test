@@ -1,4 +1,5 @@
 <?php
+namespace PayclubGateway;
 
 define('SIZEREFERENCE', 30);
 

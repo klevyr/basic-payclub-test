@@ -1,0 +1,41 @@
+{
+  "appname": "Boton de Pagos",
+  "appdesc": "Invocacion Boton de Pagos",
+  "apptitle": "Payment Gateway",
+  "environment": {
+    "dev": {
+      "merchid": "",
+      "adquirerid": "",
+      "localid": "",
+      "urlvpos": "",
+      "xmlvpos": "",
+      "urltec": "",
+      "currid": "",
+      "vectorini": "",
+      "simetrickey": "",
+      "paymentpubcipher": "",
+      "paymentpubsign": "",
+      "commerceprivcipher": "",
+      "commercepubcipher": "@deprecated",
+      "commerceprivsign": "",
+      "commercepubsign": "@deprecated"
+    },
+    "prod": {
+      "merchid": "",
+      "adquirerid": "",
+      "localid": "",
+      "urlvpos": "",
+      "xmlvpos": "",
+      "urltec": "",
+      "currid": "",
+      "vectorini": "",
+      "simetrickey": "",
+      "paymentpubcipher": "",
+      "paymentpubsign": "",
+      "commerceprivcipher": "",
+      "commercepubcipher": "@deprecated",
+      "commerceprivsign": "",
+      "commercepubsign": "@deprecated"
+    }
+  }
+}

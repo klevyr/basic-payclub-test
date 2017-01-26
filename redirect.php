@@ -2,9 +2,10 @@
 session_start();
 
 if($_SESSION['xss'] != $_POST["t"]) { echo "Token no valido!"; die(); }
-
-require_once("lib/PayclubPlugin.php");
-$ps = new PayclubSend($_POST['mid'], $_POST['localid']);
+#autoload
+require_once("vendor/autoload.php");
+#
+$ps = new \Payclub\PayclubSend($_POST['mid'], $_POST['localid']);
 $formfields = $ps->setParamametros(['trxid' => mktime(), 
                                    'subt' => $_POST['val']*100,
                                    'tax1' => '0',

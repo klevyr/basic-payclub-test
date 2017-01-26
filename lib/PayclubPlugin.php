@@ -1,7 +1,5 @@
 <?php
 namespace Payclub;
-use Payclub\RSAEncryption;
-use Payclub\TripleDESEncryption;
 
 /**
 PayclubSend :: Dinersclub
@@ -10,7 +8,7 @@ boton de pagos para el envio y generacion
 del formulario de invocacion del boton de
 pagos.
  */
-class PayclubSend extends PlugInClientSend {
+class PayclubSend extends \Payclub\PlugInClientSend {
 	var $merchantId = null;
 	var $adquirerId = null;
 	var $urlVPOS = null;
@@ -18,20 +16,21 @@ class PayclubSend extends PlugInClientSend {
 	
 	
 	function __construct( $mid, $localid ){
+    $config = new Config('prod');
 		#llaves
-		$this->setIV( Config::VECTORINI );
-		$this->setSignPrivateKey( Config::CCPRIVSIGN );
-		$this->setCipherPublicKey( Config::PCPUBCIPHER );
+		$this->setIV( $config->get('VECTORINI') );
+		$this->setSignPrivateKey( $config->get('CCPRIVSIGN') );
+		$this->setCipherPublicKey( $config->get('PCPUBCIPHER') );
 		#param form fields
-		$this->setAdquirerId( Config::ADQUIRERID );
+		$this->setAdquirerId( $config->get('ADQUIRERID') );
 		$this->setMerchantId( $mid );
 		#param plugin
 		$this->setLocalID( $localid );
-		$this->setCurrencyID( Config::CURRENCYID );
-		$this->setSourceDescription( Config::URLTEC );
+		$this->setCurrencyID( $config->get('CURRENCYID') );
+		$this->setSourceDescription( $config->get('URLTEC') );
 		#param payclub urls
-		$this->setUrlVPOS( Config::URLVPOS );
-		$this->setXmlVPOS( Config::XMLVPOS );
+		$this->setUrlVPOS( $config->get('URLVPOS') );
+		$this->setXmlVPOS( $config->get('XMLVPOS') );
 
 	}
 
@@ -92,7 +91,7 @@ Clase destinada al control del plugin del
 boton de pagos para la recepcion y decodificacion
 de los datos recibidos en la pagina de porproceso
  */
-class PayclubPosproc extends TripleDESEncryption {
+class PayclubPosproc extends \Payclub\TripleDESEncryption {
 	var $iniVector=null;
 	var $simetricKey=null;
 	var $merchantId=null;
@@ -130,5 +129,22 @@ Clase para almacenamiento de datos de configuracion
 del boton de pagos.
  */
 class Config {
+  var $jsoncfg;
+  var $environment;
+  
+	function __construct($env){
+		$this->jsoncfg = @file_get_contents("config/app_commerce.json");
+    if($this->jsoncfg == FALSE) {
+      #throw new Exception($message, $severity, $severity, $file, $line);
+      die();
+    }
+    $this->environment = $env;
+	}
+  
+  public function get($value)
+  {
+    return $this->jsoncfg->environment;
+  }
+  
 }
 

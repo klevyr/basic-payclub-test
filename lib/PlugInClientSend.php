@@ -1,5 +1,5 @@
 <?php
-namespace PayclubGateway;
+namespace Payclub;
 
 define('SIZEREFERENCE', 30);
 

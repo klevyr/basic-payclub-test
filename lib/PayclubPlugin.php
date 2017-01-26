@@ -18,19 +18,19 @@ class PayclubSend extends \Payclub\PlugInClientSend {
 	function __construct( $mid, $localid ){
     $config = new Config('prod');
 		#llaves
-		$this->setIV( $config->get('VECTORINI') );
-		$this->setSignPrivateKey( $config->get('CCPRIVSIGN') );
-		$this->setCipherPublicKey( $config->get('PCPUBCIPHER') );
+		$this->setIV( $config->get('vectorini') );
+		$this->setSignPrivateKey( $config->get('commerceprivsign') );
+		$this->setCipherPublicKey( $config->get('paymentpubcipher') );
 		#param form fields
-		$this->setAdquirerId( $config->get('ADQUIRERID') );
+		$this->setAdquirerId( $config->get('adquirerid') );
 		$this->setMerchantId( $mid );
 		#param plugin
 		$this->setLocalID( $localid );
-		$this->setCurrencyID( $config->get('CURRENCYID') );
-		$this->setSourceDescription( $config->get('URLTEC') );
+		$this->setCurrencyID( $config->get('currid') );
+		$this->setSourceDescription( $config->get('urltec') );
 		#param payclub urls
-		$this->setUrlVPOS( $config->get('URLVPOS') );
-		$this->setXmlVPOS( $config->get('XMLVPOS') );
+		$this->setUrlVPOS( $config->get('urlvpos') );
+		$this->setXmlVPOS( $config->get('xmlvpos') );
 
 	}
 
@@ -61,7 +61,7 @@ class PayclubSend extends \Payclub\PlugInClientSend {
 		//Fields
         $formFields['XMLREQUEST']     = $this->getXMLREQUEST();
         $formFields['TXTREQUEST']     = $this->getTXTREQUEST();
-		$formFields['TRANSACCIONID']	= $this->getTransacctionID();
+				$formFields['TRANSACCIONID']	= $this->getTransacctionID();
         $formFields['XMLDIGITALSIGN'] = $this->getXMLDIGITALSIGN();
         $formFields['XMLACQUIRERID']  = $this->getAdquirerId();
         $formFields['XMLMERCHANTID']  = $this->getMerchantId();
@@ -129,21 +129,28 @@ Clase para almacenamiento de datos de configuracion
 del boton de pagos.
  */
 class Config {
-  var $jsoncfg;
+  var $config;
   var $environment;
   
 	function __construct($env){
-		$this->jsoncfg = @file_get_contents("config/app_commerce.json");
-    if($this->jsoncfg == FALSE) {
+		$localjson = @file_get_contents("config/app_commerce.json");
+    if($localjson == FALSE) {
       #throw new Exception($message, $severity, $severity, $file, $line);
       die();
     }
+		$this->config =json_decode($localjson);
     $this->environment = $env;
 	}
   
   public function get($value)
   {
-    return $this->jsoncfg->environment;
+		if (in_array($value, ['merchid' , 'adquirerid' , 'localid' , 'urlvpos' , 
+													'xmlvpos' , 'urltec' , 'currid' , 'vectorini' , 
+													'simetrickey' , 'paymentpubcipher' , 'paymentpubsign' , 
+													'commerceprivcipher' , 'commercepubcipher' , 
+													'commerceprivsign' , 'commercepubsign']))
+			return $this->config->environment->{$this->environment}->{$value};
+		return $this->config->{$value};
   }
   
 }

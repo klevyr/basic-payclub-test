@@ -1,5 +1,5 @@
 <?php
-namespace PayclubGateway;
+namespace Payclub;
 
 class RSAEncryption
 {

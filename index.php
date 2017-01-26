@@ -1,11 +1,15 @@
 <?php 
 session_start(); 
 $_SESSION["xss"] = md5(uniqid(mt_rand(), true));
+#autoload
+require_once("vendor/autoload.php");
+#
+$config = new \Payclub\Config('prod');
 ?>
 <!DOCTYPE html>
 <html lang="es-ES">
 <head>
-	<title>CAPP :: Validaci&oacute;n Payclub Express</title>
+	<title><?php echo $config->get('apptitle'); ?></title>
 	  	<meta charset="iso-8859-1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,12 +54,12 @@ $_SESSION["xss"] = md5(uniqid(mt_rand(), true));
 		<div class="col-lg-5 col-offset-5">
 			<div class="panel panel-primary">
 				<div class="panel-heading clearfix">
-					<h2 class="panel-title pull-left" style="padding-top: 7.5px;">Validaci&oacute;n Parametrizaci&oacute;n Payclub Express</h2>
+					<h2 class="panel-title pull-left" style="padding-top: 7.5px;"><?php echo $config->get('appdesc'); ?></h2>
 				</div>
 				<div class="panel-body">
 					<form id="frmpayexp" action="redirect.php" method="POST">
 					  <div class="form-group">
-					    <label for="inputMid">RUC Payclub Express</label>
+					    <label for="inputMid">RUC Payclub</label>
 					    <input type="text" class="form-control" id="inputMid" placeholder="RUC" min="0" data-bind="value:inputMid" required="required">
 					  </div>
 					  <div class="form-group">
